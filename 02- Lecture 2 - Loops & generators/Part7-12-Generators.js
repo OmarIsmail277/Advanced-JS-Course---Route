@@ -193,3 +193,62 @@ console.log(x4.next());
 console.log(x4.next(10));
 console.log(x4.next(20));
 console.log(x4.next(30));
+
+// one of the use cases of generators is to create an infinite sequence of values, and to pause and resume the function at any point, and to return a value at each step,
+// this is can be for example useful in generating and id, or in generating a random number, or in generating a sequence of numbers, or in generating a sequence of values that are based on some logic,
+
+function* idGenerator() {
+  let id = 0;
+  while (true) {
+    yield id++;
+  }
+}
+const idGen = idGenerator();
+console.log(idGen.next().value);
+console.log(idGen.next().value);
+console.log(idGen.next().value);
+console.log(idGen.next().value);
+console.log(idGen.next().value);
+console.log(idGen.next().value);
+// we can generate as many ids as we want, and it will keep generating new ids, and it will never end,
+// because the loop is while true, and there is no return statement to end the function,
+// and it will keep yielding new ids, and it will keep pausing and resuming the function at each step, and it will keep returning the new ids at each step.
+console.log(idGen.return(100));
+// { value: 100, done: true } and it will end the function and return 100, and it will not generate any more ids, because the function is done.
+
+console.log(idGen.next().value); // undefined, because the function is done, and it will not return any more values, even if we call next() again,
+// it will return { value: undefined, done: true }
+
+// last function is throw
+console.log(idGen.throw(new Error("Something went wrong")));
+// this will throw an error inside the function, and it will be caught by the catch block if there is one,
+// and it will also execute the finally block if there is one, and it will end the function, and it will not return any more values, even if we call next() again,
+// it will return { value: undefined, done: true }
+
+// the throw function just gonna allow you to thrown an error if you have one, if you don't have a catch block,
+// it will just end the function and return { value: undefined, done: true }, and it will not return any more values, even if we call next() again,
+// but if you have a catch block, it will catch the error and it will execute the code inside the catch block,
+// and it will also execute the finally block if there is one, and it will end the function, and it will not return any more values, even if we call next() again,
+// it will return { value: undefined, done: true }
+
+// this isn't super useful unless you have a long running generator function that is doing some work, and you want to be able to stop it if something goes wrong,
+// and you want to be able to catch the error and handle it gracefully, like you're building a server that is handling requests,
+// and you want to be able to stop the server if something goes wrong, and you want to be able to catch the error and handle it gracefully,
+// or something like building a library behind the scenes. but it's important to know that it's there.
+
+// we can also iterate over arrays
+
+function* generator(array) {
+  for (let i = 0; i < array.length; i++) {
+    yield array[i];
+  }
+}
+
+// but rather than using a for-loop, you can use the yield* keyword because it lets you yield over iterables such as arrays, strings, etc.
+
+// Hence the code can be succinctly written:
+function* generator(array) {
+  yield* array;
+}
+
+// Side note: An arrow generator function does not exist.
