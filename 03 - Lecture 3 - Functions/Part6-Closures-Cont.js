@@ -89,7 +89,7 @@ console.log(squre(4)); // Cache hit, retrieves from cache
 console.log(squre(5)); // Cache miss, calculates and stores in cache
 console.log(squre(5)); // Cache hit, retrieves from cache
 
-// Closres are like a backpack that carries variables and functions with it, from the outer scope,
+// Clousres are like a backpack that carries variables and functions with it, from the outer scope,
 // allowing us to access and manipulate them even after the outer function has finished executing.
 // They are essential for creating private variables, implementing data encapsulation, and enabling powerful programming patterns
 // like debouncing and memoization.
