@@ -16,7 +16,7 @@ function countdown(n) {
   countdown(n - 1);
 }
 
-// Factorial - most famous recursion examples 
+// Factorial - most famous recursion examples
 
 function factorial(n) {
   if (n === 1) return 1;
