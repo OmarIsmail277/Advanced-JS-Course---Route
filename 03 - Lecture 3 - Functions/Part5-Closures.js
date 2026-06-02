@@ -62,7 +62,6 @@ console.log(count()); // Output: 2 - the count variable is retained in memory an
 // When Closures can be useful?
 
 // 💡 1. To “remember” data after a function finishes
-// When you want a function to keep some private state.
 function createCounter() {
   let count = 0;
 
