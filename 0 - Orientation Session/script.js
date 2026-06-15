@@ -32,7 +32,6 @@ function isAnagram(str1, str2) {
 }
 
 // optiimized approach with O(1) - using an array of size 26 to count the frequency of characters (assuming only lowercase letters)
-
 function isAnagram(s, t) {
   if (s.length !== t.length) return false;
 
@@ -80,6 +79,7 @@ function isAnagram(s, t) {
   // so we can conclude that the time complexity of this solution is O(n) and the space complexity is O(1) because we are using a fixed size array of 26 to
   // count the frequency of characters, we decide if's it anagarm at the end of the loop, we don't need to check if any frequency is
   // negative during the loop because we will check it at the end of the loop, if any frequency is not 0, then it's not an anagram
+
   for (let i = 0; i < s.length; i++) {
     freq[s.charCodeAt(i) - 97]++; // add from s
     freq[t.charCodeAt(i) - 97]--; // subtract from t

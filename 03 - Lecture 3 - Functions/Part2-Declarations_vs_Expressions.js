@@ -13,10 +13,8 @@ const text2 = function () {
 };
 
 // If declared with var
-
 console.log(text2); // undefined
 text2(); // ❌ TypeError: text2 is not a function
-
 var text2 = function () {
   console.log("This is a function expression with var");
 };

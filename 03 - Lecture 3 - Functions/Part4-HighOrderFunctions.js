@@ -19,6 +19,7 @@ function createMultiplier(multiplier) {
     return num * multiplier;
   };
 }
+
 const double = createMultiplier(2);
 const triple = createMultiplier(3);
 
