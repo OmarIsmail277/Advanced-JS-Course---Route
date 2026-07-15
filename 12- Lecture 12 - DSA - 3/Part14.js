@@ -151,6 +151,12 @@ class LinkedList {
   //
   // append(40)
   //
+  // HEAD
+  //  ↓
+  // 10 → 20 → 30 → null
+  //  ↑
+  // current
+  //
   // Traversal:
   //
   // HEAD
