@@ -1,74 +1,102 @@
-// resolving collisions
-// this is one of many ways - research if you are interested
+// // 3 main operations
 
-// improving set method
+// 1- set to store a key-value pair
+// 2- get to retrieve a value given its key
+// 3- remove to delete a key value pair
+// +
+//  hashing function to convert a str key to a num index
 
-function set(key, value) {
-  const index = this.hash(key);
-  // this.table[index] = value;
+class HashTable {
+  // default size
+  constructor(size = 53) {
+    // this.table = new Array(size);
+    this.buckets = new Array(size);
+    this.size = size;
+  }
 
-  const bucket = this.table[index];
-  if (!bucket) this.table[index] = [[key, value]];
-  else {
-    const sameKeyItem = bucket.find((item) => item[0] === key);
-    if (sameKeyItem) sameKeyItem[1] = value;
-    else bucket.push([key, value]);
+  _hash(key) {
+    let total = 0;
+    // preferrred first numbers, when you use a large prime number, it reduces collisions
+    const prime = 31;
+    for (let i = 0; i < Math.min(key.length, 100); i++) {
+      const charCode = key.charCodeAt(i);
+      total = (total * prime + charCode) % this.size;
+    }
+    return total;
+  }
+
+  set(key, value) {
+    const index = this._hash(key); // Converts the key into an array index
+
+    // If the bucket at this index doesn't exist yet, initialize it as an empty array
+    if (!bucket) {
+      // If the key wasn't found in the bucket, add it as a new key-value pair (Insert)
+      this.buckets[index] = [[key, value]];
+      return this;
+    }
+
+    // If the bucket exists, grab it and check for updates or pushes
+    const bucket = this.buckets[index];
+
+    // Search through the bucket to see if the key already exists (Update)
+    for (const entry of bucket) {
+      if (entry[0] === key) {
+        entry[1] = value;
+        return this; // Return 'this' to allow method chaining (e.g., ht.set('a', 1).set('b', 2))
+      }
+    }
+
+    // Key wasn't in the existing bucket, so push it as a new pair
+    bucket.push([key, value]);
+    return this;
+  }
+
+  get(key) {
+    const index = this._hash(key); // 1. Jump directly to the right index
+    let bucket = this.buckets[index];
+
+    if (!bucket) return undefined; // 2. Fast Exit: No bucket means key was never added
+
+    // 3. Destructure each [key, value] pair in the bucket
+    for (const [storedKey, storedValue] of bucket) {
+      if (storedKey === key) return storedValue; // Match found! Return value
+    }
+
+    return undefined; // 4. Scanned the bucket, but key wasn't there
+  }
+
+  remove(key) {
+    const index = this._hash(key); // 1. Jump directly to the bucket index
+    const bucket = this.buckets[index];
+    if (!bucket) return false; // 2. Fast Exit: Bucket is empty, key doesn't exist
+
+    // 3. Find the exact position of the key inside the bucket array
+    const entryIndex = bucket.findIndex(([storedKey]) => storedKey == key);
+
+    if (entryIndex == -1) return false; // 4. Scanned bucket, key wasn't found
+
+    bucket.splice(entryIndex, 1); // 5. Remove 1 item at entryIndex
+
+    // 6. Cleanup: If bucket is now empty, delete it to free memory
+    if (bucket.length == 0) this.buckets[index] = undefined;
+
+    return true; // 7. Successfully removed!
+  }
+
+  display() {
+    for (let i = 0; i < this.buckets.length; i++) {
+      if (this.buckets[i]) console.log(i, this.buckets[i]);
+    }
   }
 }
 
-function get(key) {
-  const index = this.hash(key);
-  //   return this.table[index];
+const table = new HashTable(50);
 
-  const bucket = this.table[index];
+table.set("name", "Ahmed");
+table.set("age", "25");
+table.display();
 
-  if (bucket) {
-    const sameKeyItem = bucket.find((item) => item[0] === key);
-    if (sameKeyItem) return sameKeyItem[1];
-  }
-  return undefined;
-}
+console.log(table.get("name"));
 
-function remove(key) {
-  const index = this.hash(key);
-  // this.table[index] = undefined;
-  const bucket = this.table[index];
-  if (bucket) {
-    const sameKeyItem = bucket.find((item) => item[0] === key);
-    if (sameKeyItem) bucket.splice(bucket.indexOf(sameKeyItem), 1);
-  }
-}
-
-/*
-i want to mention here that increasing
-the size of the array is not the best
-solution to handling collisions
-sure it may reduce the number of
-collisions but there is always a
-possibility of data loss
-typically whenever the hash table
-reaches half the capacity or more
-the array capacity is doubled and the
-key value pairs are rehashed
-all right let me conclude this video by
-talking about time complexity
-if you have a look at set get and remove
-all of them use array.find which loops
-over the elements in the array
-and if you have watched the algorithms
-playlist you can safely say the time
-complexity is
-linear however with hash tables the
-collision is very minimal
-and it can be reduced to a great extent
-by having better hashing functions
-and because of that
-we generally consider the average case
-time complexity instead of worst case
-time complexity when it comes to hash
-tables
-the average case complexity is constant
-that is the reason hash tables are a
-prime choice when solving problems
-
-*/
+table.set("mane", "Mohamed");
+table.display();

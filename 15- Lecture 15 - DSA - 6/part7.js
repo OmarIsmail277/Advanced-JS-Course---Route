@@ -1,55 +1,113 @@
-// // 3 main operations
+// ============================================================
+//                 Solving Collisions
+// ============================================================
 
-// 1- set to store a key-value pair
-// 2- get to retrieve a value given its key
-// 3- remove to delete a key value pair
-// +
-//  hashing function to convert a str key to a num index
+/*
+A collision happens when two different keys
+produce the same array index.
 
-class HashTable {
-  constructor(size) {
-    this.table = new Array(size);
-    this.size = size;
-  }
+Example
 
-  hash(key) {
-    let total = 0;
-    for (let i = 0; i < key.length; i++) total += key.charCodeAt(i);
-    return total % this.size;
-  }
+hash("Ahmed") = 5
 
-  set(key, value) {
-    const index = this.hash(key);
-    this.table[index] = value;
-  }
+hash("Omar") = 5
 
-  get(key) {
-    const index = this.hash(key);
-    return this.table[index];
-  }
+Both keys want to be stored at
 
-  remove(key) {
-    const index = this.hash(key);
-    this.table[index] = undefined;
-  }
+table[5].
 
-  display() {
-    for (let i = 0; i < this.table.length; i++) {
-      if (this.table[i]) console.log(i, this.table[i]);
-    }
-  }
-}
+Since only one position exists,
 
-const table = new HashTable(50);
+we need a strategy to store both values.
 
-table.set("name", "Ahmed");
-table.set("age", "25");
-table.display();
+------------------------------------------------------------
 
-console.log(table.get("name"));
+There are two main collision resolution techniques.
 
-table.set("mane", "Mohamed");
-table.display();
+1. Separate Chaining
 
-// a bug can be found if the key is anagarm => name, mane, will produce the same index using the simple hashing function used
-// and the latter will override the former value, that is called a collison and needs to be handled in our implementation
+Each array index stores a collection
+(usually a Linked List, but it can also
+be an Array or another data structure).
+
+Example
+
+Index
+
+5
+
+↓
+
+[
+  { key: "Ahmed", value: 25 },
+  { key: "Omar", value: 30 }
+]
+
+When retrieving "Omar",
+
+we hash the key,
+
+go directly to bucket 5,
+
+then search only inside that bucket.
+
+------------------------------------------------------------
+
+2. Open Addressing
+
+Instead of storing multiple entries
+in the same bucket,
+
+we look for another empty position
+inside the array.
+
+Example
+
+hash("Ahmed") = 5
+
+↓
+
+table[5] = { Ahmed, 25 }
+
+Later
+
+hash("Omar") = 5
+
+Position 5 is occupied.
+
+Check the next position.
+
+↓
+
+table[6] = { Omar, 30 }
+
+Different probing techniques determine
+which next position to check
+(linear probing, quadratic probing,
+double hashing, etc.).
+
+rule of Open Addressing
+
+Whatever rule set() uses to find an empty slot, get() must use the exact same rule to find the stored key.
+
+If set() uses:
+
+Linear probing → get() uses linear probing.
+Quadratic probing → get() uses quadratic probing.
+Double hashing → get() uses double hashing.
+
+Both operations must follow the same sequence of indexes.
+
+------------------------------------------------------------
+
+Interview Notes
+
+✔ Separate Chaining is easier to implement
+and is very common.
+
+✔ Open Addressing stores all entries
+directly inside the array.
+
+✔ Both techniques aim to resolve collisions
+while keeping average operations close to O(1).
+*/
