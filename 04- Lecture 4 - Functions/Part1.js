@@ -232,3 +232,13 @@ setTimeout(person.sayHello, 1000); // `this` is lost
 setTimeout(person.sayHello.bind(person), 1000); // Hello, I'm Omar
 
 // ------------------------------------------------------------------------------------
+
+const user = {
+  id: 1,
+  name: "Ahmed",
+};
+
+const user = {};
+
+user.id = 1;
+user.name = "Ahmed";

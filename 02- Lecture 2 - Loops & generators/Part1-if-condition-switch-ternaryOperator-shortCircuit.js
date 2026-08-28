@@ -173,9 +173,8 @@ console.log(JSON.stringify(obj1) === JSON.stringify(obj2)); // Output: true
 
 // also when checking if an array is empty, we can use the length property instead of relying on its truthiness:
 const myArray = [];
-if (myArray.length === 0) {
-  console.log("The array is empty");
-}
+if (myArray.length === 0) console.log("The array is empty");
+
 // In this example, we check if the length of myArray is equal to 0 to determine if it is empty. This is a more reliable way to check for an empty array than relying
 // on its truthiness, since an empty array is still considered truthy in JavaScript.
 

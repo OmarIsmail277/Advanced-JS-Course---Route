@@ -19,11 +19,11 @@ function test(a = b, b = 10) {
 test(); // ReferenceError: Cannot access 'b' before initialization
 
 // To fix this, we can rearrange the parameters so that `b` is defined before `a`:
-function testFixed(a = 10, b = 10) {
+function testFixed(a = 10, b = a) {
   console.log("a:", a);
   console.log("b:", b);
 }
 testFixed(); // Output: a: 10, b: 10
-testFixed(5); // Output: a: 5, b: 10
+testFixed(5); // Output: a: 5, b: 5
 testFixed(20, 30); // Output: a: 20, b: 30
 testFixed(undefined, 20); // Output: a: 10, b: 20

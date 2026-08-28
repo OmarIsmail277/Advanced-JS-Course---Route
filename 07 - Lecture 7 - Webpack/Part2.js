@@ -66,7 +66,7 @@
  *   var userName = "ahmed";  // auth.js
  *   var userName = "abdo";   // main.js
  *
- *   userName; // "abdo"  ← auth's value silently overwritten
+ *   userName; // "abdo"  ← auth's value (ahmed) silently overwritten
  *
  * That is called Global Namespace Pollution.
  *

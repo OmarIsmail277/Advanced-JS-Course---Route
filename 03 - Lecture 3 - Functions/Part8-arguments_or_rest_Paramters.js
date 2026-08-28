@@ -6,6 +6,7 @@ function sum() {
   // we can convert it to an array using Array.from() or the spread operator
   const args = Array.from(arguments);
   // const args = [...arguments];
+  // works, but Array.from(arguments) is the more universally compatible and commonly taught approach.
   return args.reduce((acc, curr) => acc + curr, 0);
 }
 
